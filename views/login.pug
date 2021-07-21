@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  main.container
+    .bg-light.p-5.rounded.mt-3
+      h1 Login
+      if alert =='success'
+        div.alert.alert-success login successfull
+      if alert =='error'
+        div.alert.alert-danger An error occured.
+      form(action='/' method='POST' name='loginform')
+        hr
+        .account-type
+          input#radioOne(type='radio' value='none' name='admin' checked='')
+          label.radio(for='radioOne') Administration
+          input#radioTwo(type='radio' value='none' name='manager')
+          label.radio(for='radioTwo') Manager
+        hr
+        label#icon(for='name')
+          i.fa.fa-user
+        input#name(type='text' name='admin' placeholder='Name' required='')
+        label#icon(for='name')
+          i.fa.fa-unlock-alt
+        input#pwd(type='password' name='pwd' placeholder='Password' required='')
+        hr
+        .btn-block
+          p
+            a(href='#') Privacy Policy for Zaabu Washing Limited
+            | .
+          button(type='submit' href='/tracker') Submit

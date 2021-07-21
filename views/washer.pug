@@ -1,0 +1,34 @@
+extends layoutdash
+
+block content 
+    div
+        .bd-example
+            .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
+                h2 Washers Registration
+                   i.fa.fa-user-circle-o
+                if alert == "success"
+                    div.alert.alert-success Washer added successfully
+                if alert == "error"
+                    div.alert.alert-danger An error occurred, failed to add washer 
+            form(action='/register/washer' method='POST')
+                .input-group
+                    input.form-control.mainer(type='text'  placeholder='Assign Washer ID' name='id' required='')
+                    input#name.form-control.mainer(type='text' name='fullName' placeholder='Enter Names' required='')
+                .input-group
+                    input#date.form-control.mainer(type='text' onclick="(this.type='date')" name='dob' placeholder='Date of Birth')
+                    input#telephone.form-control.mainer(type='tel' name='phoneNumber' placeholder='Enter Phone Number' required='')
+                .input-group
+                    input#nok.form-control.mainer(type='text' name='nin' placeholder='Enter Your NIN number' required='')
+                    select#address.form-control.mainer(type='text' name='homeAddress' placeholder='Home address')
+                        option(value='home address' selected='') Home Address
+                        option(value='katanga') katanga
+                        option(value='kalerwe') kalerwe
+                        option(value='mawanda road') mawanda road
+                        option(value='other') other
+                .input-group
+                    //- .TCs
+                    //-     input.mainer(type='radio' value='none' id='T&c' name='T&Cs')
+                    //-     label.radio(for='T&c') I agree to the terms and conditions
+                    hr
+                    .btn-block
+                        button.shadow.bg-purple-500.text-white.font-bold.py-2.px-4.rounded(type='submit') Submit

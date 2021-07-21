@@ -1,0 +1,22 @@
+extends layoutdash
+
+block content
+  main.container
+    .bg-light.p-5.rounded.mt-3
+      h1 Register Manager Here
+      if alert =='success'
+        div.alert.alert-success Manager successfully added
+      if alert =='error'
+        div.alert.alert-danger An error occured.
+      form(action='/register/manager' method='POST' name='loginform')
+        .input-group
+        input#name.form-control.mainer(type='text' name='firstName' placeholder='First Name' required='')
+        .input-group
+        input#pwd.form-control.mainer(type='text' name='lastName' placeholder='Last Name' required='')
+        .input-group
+        input#pwd.form-control.mainer(type='text' name='userName' placeholder='User Name' required='')
+        .input-group
+        input#pwd.form-control.mainer(type='password' name='pwd' placeholder='Password' required='')
+        hr
+        .btn-block
+          button(type='submit' href='/tracker') Submit

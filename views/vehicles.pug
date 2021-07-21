@@ -1,0 +1,37 @@
+extends layoutdash
+
+block content
+     div
+        .bd-example
+            .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
+                h2 Vehicle Registration
+                   i.fa.fa-car
+                if alert == "success"
+                    div.alert.alert-success Vehicle added successfully
+                if alert == "error"
+                    div.alert.alert-danger An error occurred, failed to add washer 
+            form(action='/register/vehicles' method='POST')
+                .input-group
+                    input#arrivalTime.form-control.mainer(type='text' onclick="(this.type='time')" name='checkIn' placeholder='Arrival Time' required='')
+                    input#date.form-control.mainer(type='text' onclick="(this.type='date')" name='doa' placeholder='Date' required='')
+                .input-group
+                    input#numberPlate.form-control.mainer(type='text' name='carPlate' placeholder='Car Number Plate' required='')
+                    input#carColor.form-control.mainer(type='text' name='carColor' placeholder='Car Color' required='')
+                .input-group
+                    input#carType.form-control.mainer(type='text' name='carType' placeholder='Car Type' required='')
+                    select#washer.form-control.mainer(type='text' name='package' placeholder='Car wash Package')
+                        option(value='car-wash-package' selected='') Car Wash package
+                        option(value="smallcars")  Small cars(10,000/=)
+                        option(value="medium") Medium(15,000/=)
+                        option(value="fullwash") Full wash(20,000/=)
+                        option(value="bodaboda") Boda-boda(5,000/=)
+                        option(value="engine") Engine(10,000/=)
+                .input-group
+                    select#washerID.washer.form-control.mainer(name='washer' placeholder='Assign Washer')
+                        each washer in washers
+                            option(value=washer._id) #{washer.fullName +' '+ washer.id}
+                .input-group        
+                    .btn-block
+                        button(type='submit' href='/') Submit
+                            
+ 

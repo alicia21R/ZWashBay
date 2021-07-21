@@ -1,0 +1,30 @@
+extends layoutdash
+
+block content
+    form.search(action='/report/washerDetails' method='POST' )
+        .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
+            h2 Washer Details        
+    #dashview.table-responsive.show.active
+        table.table.table-striped.table-sm
+            thead
+            tr
+                th ID
+                th Full Name
+                th Date of Birth
+                th Phone number
+                th NIN
+                th Home Address
+            
+            tbody
+            if washers.length
+                each washer in washers
+                    tr
+                   
+                        td #{washer.id}
+                        td #{washer.fullName}
+                        td #{moment(washer.dob).format('DD-MM-YYYY')}
+                        td #{washer.phoneNumber}
+                        td #{washer.nin}
+                        td #{washer.homeAddress}
+
+
