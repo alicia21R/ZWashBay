@@ -1,14 +1,16 @@
 //DEPENDENCIES
-const express = require('express');
-const path = require('path');
-const moment = require('moment'); 
-const mongoose = require('mongoose');
+const express           = require('express');
+const path              = require('path');
+const moment            = require('moment'); 
+const mongoose          = require('mongoose');
+const passport          = require('passport');
 require('dotenv').config();
-const homeRoute= require('./routes/homeRoutes')
-const dashRoute= require('./routes/dashRoutes')
-const registerRoute= require('./routes/registerRoutes')
-const reportRoute = require('./routes/reportRoutes');
-const expressSession = require('express-session')({
+const homeRoute         = require('./routes/homeRoutes')
+const dashRoute         = require('./routes/dashRoutes')
+const registerRoute     = require('./routes/registerRoutes')
+const reportRoute       = require('./routes/reportRoutes');
+const Management        = require('./models/Management')
+const expressSession    = require('express-session')({
     secret: 'secret',
     resave: false,
     saveUninitialized: false
@@ -37,9 +39,25 @@ app.set('view engine', 'pug');
 app.set('views', './views');
 app.locals.moment = moment
 app.use(expressSession);
+
 //MIDDLE WARE
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(Management.createStrategy());
+passport.serializeUser(Management.serializeUser());
+passport.deserializeUser(Management.deserializeUser());
+
+var loginChecker = function (req, res, next) {
+    if (req.path != '/' && !req.session.user) {
+      res.redirect('/')
+    }
+    next()
+  }
+  app.use(loginChecker)
+
 //ROUTES
 app.use('/',homeRoute); 
 app.use('/dashboard',dashRoute);

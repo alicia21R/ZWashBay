@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Washer = require('../models/Washer')
 const CarTracker = require('../models/CarTracker')
+const Expenses = require('../models/Expenses')
+const Management = require('../models/Management')
 
 washPackages = {
     smallcars: { washerFee: 3000, packagePrice: 10000 },
@@ -68,8 +70,8 @@ router.get('/manager', (req, res) => {
 
 router.post("/manager", async (req, res) => {
     
-    const manager = new Manager(req.body);
-    await Manager.register(manager, req.body.password, (err) => {
+    const manager = new Management(req.body);
+    await Management.register(manager, req.body.password, (err) => {
         if (err) {
             res.status(400).render('management', { title: "Register Manager", alert: 'error' })
             console.log(err)
@@ -86,7 +88,7 @@ router.get("/expenses", (req, res) => {
 
 router.post("/expenses", async (req, res) => {
     try {
-        const expense = new Expense(req.body);
+        const expense = new Expenses(req.body);
         await expense.save()
         res.redirect('expenses?alert=success')
     }

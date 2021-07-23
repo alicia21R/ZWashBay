@@ -1,0 +1,30 @@
+extends layoutdash
+
+block content
+    form.search(action='/report/washerExpenses' method='POST' )
+        .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
+            h2 Washer Expenses  
+            .btn-toolbar.mb-2.mb-md-0.ith    
+                input.formcontrol.btn.btn-sm.btn-outline-secondary(type="date" name="searchdate" value=defaultDate)
+                input.formcontrol.btn.btn-sm.btn-outline-secondary(type="submit" placeholder='Submit')    
+    #dashview.table-responsive.show.active
+        table.table.table-striped.table-sm
+            thead
+            tr
+                th Date
+                th Item
+                th Amount
+        
+            tbody
+              if expenses.length
+                each expense in expenses
+                    tr
+                        td #{moment(expense.doe).format('DD-MM-YYYY')}
+                        td #{expense.item}
+                        td #{expense.amount}
+                tr
+                    th(colspan=2) Total Expenses
+                    td #{new Intl.NumberFormat().format(total.totalExpense)}
+
+
+

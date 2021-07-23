@@ -9,7 +9,7 @@ block content
                 if alert == "success"
                     div.alert.alert-success Expenses added successfully
                 if alert == "error"
-                    div.alert.alert-danger An error occurred, failed to add washer 
+                    div.alert.alert-danger An error occurred, failed to add Expenses
             form(action='/register/expenses' method='POST')
                 .input-group
                     input#date.form-control.mainer(type='text' onclick="(this.type='date')" name='do' placeholder='Date' required='')

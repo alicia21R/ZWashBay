@@ -1,22 +1,17 @@
-const express = require('express');
-const router = express.Router();
+const express     = require('express');
+const router      = express.Router();
+const passport    = require('passport');
 
-
-router.get('/',(req,res)=>{
-    res.render("login", 
-    { title: "ZaWash Login",
-    alert: req.query.alert,})
+router.get('/', (req, res) => {
+  res.render('login', { title: "Log In", alert: req.query.alert })
 })
 
-router.post("/", (req,res)=>{
-    res.redirect("/dashboard");
-    console.log('its working')
-    // console.log(req.body)
-    // const login = new Login(req.body);
-    // login.save()
-    //     .then(() => { res.redirect("/dashboard"); })
-    //     .catch((err) =>{ console.log(err); 
-    //                      res.send('Sorry! Something went wrong.');});
-  })
+// checks username and password using passport
+router.post('/', passport.authenticate('local',
+  { failureRedirect: '/?alert=error' }),
+  (req, res) => {
+      req.session.user = req.user
+      res.redirect('/dashboard');
+})
 
 module.exports = router;

@@ -4,6 +4,7 @@ const router = express.Router();
 const moment = require('moment');
 const Washer = require('../models/Washer')
 const CarTracker = require('../models/CarTracker')
+const Expenses = require('../models/Expenses')
 
 
 
@@ -47,6 +48,58 @@ router.get('/washerPay', async (req, res) => {
         res.send('Failed to retrive payout details');
     }
 })
+
+router.get('/washerExpenses', async (req, res) => {
+    try {
+        let selectedDate = moment().format('YYYY-MM-DD')
+        if (req.query.searchdate)
+            selectedDate = moment(req.query.searchdate).format('YYYY-MM-DD')
+
+        // query for returning all expenses on a day
+        let expenseDetails = await Expenses.find({ do: selectedDate })
+
+        // query for total expense on a day
+        let totalExpense = await Expenses.aggregate([
+            { $match: { do: new Date(selectedDate) } },
+            { $group: { _id: '$do', totalExpense: { $sum: '$amount' } } }
+        ])
+
+        res.render("washerExpenses", {
+            expenses: expenseDetails, total: totalExpense[0],
+            title: "Expenses", defaultDate: selectedDate
+        })
+    } catch (err) {
+        console.log(err)
+        res.send('Failed to retrive Expense details');
+    }
+})
+router.get('/carPayment', async (req, res) => {
+    try {
+        let selectedDate = moment().format('YYYY-MM-DD')
+        if (req.query.searchdate)
+            selectedDate = moment(req.query.searchdate).format('YYYY-MM-DD')
+
+        // query for returning all expenses on a day
+
+        let collectionDetails = await CarTracker.find({ doa: selectedDate })
+
+        // query for total expense on a day
+        let totalCollection = await CarTracker.aggregate([
+            { $match: { doa: new Date(selectedDate) } },
+            { $group: { _id: '$doa', totalCollection: { $sum: '$packagePrice' } } }
+        ])
+
+        res.render("carPayment", {
+            collections: collectionDetails, total: totalCollection[0],
+            title: "Collections", defaultDate: selectedDate
+        })
+
+    } catch (err) {
+        console.log(err)
+        res.send('Failed to retrive collections details');
+    }
+})
+
 
 
 module.exports = router;
